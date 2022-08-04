@@ -1,0 +1,85 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    color: #000;
+    min-height: 100vh;
+    align-items: center;
+    text-align: center;
+}
+
+.header {
+    padding: .5rem 1rem;
+    width: 100%;
+    background-color: #eee;
+}
+
+.topbar {
+    margin: 0 auto;
+}
+
+form {
+    min-width: unset;
+    max-width: unset;
+}
+
+.row {
+    margin: 1rem 0;
+    width: 100%;
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.main-content {
+    width: 100%;
+}
+
+input,
+select {
+    font: inherit;
+}
+
+h3 {
+    margin-bottom: 0.5rem;
+}
+
+#enterText {
+    /* padding for languages that need to display underlines */
+    padding: 0.4rem;
+    width: 100%;
+    max-width: unset;
+}
+
+#enterText::placeholder {
+    color: #aaa;
+}
+
+#mainColumn {
+    font-size: 24px;
+}
+
+.row>p {
+    margin: .5rem 0;
+    text-align: left;
+}
+
+.mt-1 {
+    margin: 1rem 0 0 0;
+}
+
+#message {
+    font-size: 16px;
+    color: #666;
+}
+
+#word {
+    color: #c00;
+    text-align: left;
+    padding: 0.4rem;
+}

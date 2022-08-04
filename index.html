@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Typing Practice</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="header">
+    <div class="topbar">
+      <h1>Typing Practice</h1>
+      <p class="mt-1">Practice typing with the top 1000 most common words of a language</p>
+    </div>
+  </div>
+
+  <section class="container">
+    <aside class="main-content row" id="mainColumn">
+      <p>
+        <span id="word">Loading...</span>
+      </p>
+      <input placeholder="" autofocus id="enterText">
+      <p id="message">&nbsp;</p>
+    </aside>
+
+    <div class="row">
+      <form class="">
+        <h3>Options</h3>
+        <!-- <label for="selectLang">Language:</label> -->
+        <select id="selectLang">
+          <option>English</option>
+        </select>
+        <div>
+          <input id="optionPlaySound" type="checkbox" checked>
+          <label for="optionPlaySound">Play sound</label>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <script src="words.js"></script>
+  <script>
+    const enterText = document.getElementById('enterText');
+    const message = document.getElementById('message');
+    const wordElement = document.getElementById('word');
+    let currentWord = '';
+    let soundEnabled = document.getElementById('optionPlaySound').checked;
+
+    function validate(e) {
+      const inputText = e.target.value.trim();
+      if (inputText === currentWord) {
+        message.textContent = '\u00A0';
+        correctSound.currentTime = 0.01;
+        soundEnabled && correctSound.play();
+        e.target.value = '';
+        newWord();
+      } else {
+        message.textContent = 'Incorrect';
+      }
+    }
+    function newWord() {
+      const newWord = words[Math.floor(Math.random() * words.length)];
+      currentWord = newWord;
+      wordElement.textContent = newWord;
+    }
+
+    enterText.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (e.ctrlKey) {
+          newWord();
+          message.textContent = '';
+        } else {
+          validate(e);
+        }
+      }
+    });
+
+    document.getElementById('optionPlaySound').addEventListener('change', (e) => {
+      soundEnabled = e.target.checked;
+    });
+
+    const correctSound = new Audio('https://thumbs.dreamstime.com/audiothumb_13752/137523215.mp3');
+    correctSound.playbackRate = 1.5;
+    correctSound.volume = 0.3;
+
+    newWord();
+  </script>
+</body>
+
+</html>

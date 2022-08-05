@@ -52,8 +52,17 @@ h3 {
 #enterText {
     /* padding for languages that need to display underlines */
     padding: 0.4rem;
+    color: #495057;
     width: 100%;
     max-width: unset;
+    border: 1px solid #ddd;
+    transition: border-color .1s ease-in-out, box-shadow .1s ease-in-out;
+}
+#enterText:focus {
+    background-color: #fff;
+    border-color: #99bbef;
+    box-shadow: 0 0 0 0.1rem rgb(0 123 255 / 25%);
+    outline: 0;
 }
 
 #enterText::placeholder {

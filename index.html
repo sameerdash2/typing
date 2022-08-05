@@ -48,6 +48,25 @@
     let currentWord = '';
     let soundEnabled = document.getElementById('optionPlaySound').checked;
 
+    function newWord() {
+      const newWord = words[Math.floor(Math.random() * words.length)];
+      currentWord = newWord;
+      wordElement.textContent = newWord;
+    }
+
+    enterText.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (e.ctrlKey) {
+          newWord();
+          e.target.value = '';
+          message.textContent = '\u00A0';
+        } else {
+          validate(e);
+        }
+      }
+    });
+
     function validate(e) {
       const inputText = e.target.value.trim();
       if (inputText === currentWord) {
@@ -60,23 +79,6 @@
         message.textContent = 'Incorrect';
       }
     }
-    function newWord() {
-      const newWord = words[Math.floor(Math.random() * words.length)];
-      currentWord = newWord;
-      wordElement.textContent = newWord;
-    }
-
-    enterText.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        if (e.ctrlKey) {
-          newWord();
-          message.textContent = '';
-        } else {
-          validate(e);
-        }
-      }
-    });
 
     document.getElementById('optionPlaySound').addEventListener('change', (e) => {
       soundEnabled = e.target.checked;

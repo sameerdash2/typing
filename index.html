@@ -25,19 +25,31 @@
       <p id="message">&nbsp;</p>
     </aside>
 
-    <div class="row">
-      <form class="">
-        <h3>Options</h3>
-        <!-- <label for="selectLang">Language:</label> -->
-        <select id="selectLang">
-          <option>English</option>
-        </select>
-        <div>
-          <input id="optionPlaySound" type="checkbox" checked>
-          <label for="optionPlaySound">Play sound</label>
+    <aside class="row">
+      <div class="row-flex">
+        <div class="col col-25">
+          <h4>Language</h4>
+          <form id="languageForm">
+            <!-- Using IETF BCP 47 language tags -->
+            <div class="radio-item">
+              <input type="radio" value="en" id="select-en" name="lang" checked />
+              <label for="select-en">English</label>
+            </div>
+            <div class="radio-item">
+              <input type="radio" value="es" id="select-es" name="lang"/>
+              <label for="select-es">Spanish</label>
+            </div>
+          </form>
         </div>
-      </form>
-    </div>
+        <div class="col col-75">
+          <h4>Options</h4>
+          <div>
+            <input id="optionPlaySound" type="checkbox" checked>
+            <label for="optionPlaySound">Play sound</label>
+          </div>
+        </div>
+      </div>
+    </aside>
   </section>
 
   <script src="words.js"></script>
@@ -46,10 +58,17 @@
     const message = document.getElementById('message');
     const wordElement = document.getElementById('word');
     let currentWord = '';
+
+    const correctSound = new Audio('https://thumbs.dreamstime.com/audiothumb_13752/137523215.mp3');
+    correctSound.playbackRate = 1.5;
+    correctSound.volume = 0.3;
+
+    let lang = document.querySelector('input[name="lang"]:checked').value;
+    let currentWordList;
     let soundEnabled = document.getElementById('optionPlaySound').checked;
 
     function newWord() {
-      const newWord = words[Math.floor(Math.random() * words.length)];
+      const newWord = currentWordList[Math.floor(Math.random() * currentWordList.length)];
       currentWord = newWord;
       wordElement.textContent = newWord;
     }
@@ -84,11 +103,16 @@
       soundEnabled = e.target.checked;
     });
 
-    const correctSound = new Audio('https://thumbs.dreamstime.com/audiothumb_13752/137523215.mp3');
-    correctSound.playbackRate = 1.5;
-    correctSound.volume = 0.3;
+    document.getElementById('languageForm').addEventListener('change', initialize);
 
-    newWord();
+    function initialize() {
+      lang = document.querySelector('input[name="lang"]:checked').value;
+      currentWordList = words[lang];
+      newWord();
+    }
+
+    initialize();
+
   </script>
 </body>
 

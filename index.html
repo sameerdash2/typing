@@ -47,6 +47,10 @@
             <input id="optionPlaySound" type="checkbox" checked>
             <label for="optionPlaySound">Play sound</label>
           </div>
+          <div>
+            <input id="optionCaseSensitive" type="checkbox" checked>
+            <label for="optionCaseSensitive">Case sensitive</label>
+          </div>
         </div>
       </div>
     </aside>
@@ -66,6 +70,7 @@
     let lang = document.querySelector('input[name="lang"]:checked').value;
     let currentWordList;
     let soundEnabled = document.getElementById('optionPlaySound').checked;
+    let caseSensitive = document.getElementById('optionPlaySound').checked;
 
     function newWord() {
       const newWord = currentWordList[Math.floor(Math.random() * currentWordList.length)];
@@ -87,7 +92,9 @@
     });
 
     function validate(e) {
-      const inputText = e.target.value.trim();
+      let inputText = e.target.value.trim();
+      if (!caseSensitive) inputText = inputText.toLowerCase();
+
       if (inputText === currentWord) {
         message.textContent = '\u00A0';
         correctSound.currentTime = 0.01;
@@ -101,6 +108,10 @@
 
     document.getElementById('optionPlaySound').addEventListener('change', (e) => {
       soundEnabled = e.target.checked;
+    });
+
+    document.getElementById('optionCaseSensitive').addEventListener('change', (e) => {
+      caseSensitive = e.target.checked;
     });
 
     document.getElementById('languageForm').addEventListener('change', initialize);

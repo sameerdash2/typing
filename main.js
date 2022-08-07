@@ -10,13 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let lang = document.querySelector('input[name="lang"]:checked').value;
     let currentWordList;
-    let soundEnabled = document.getElementById('optionPlaySound').checked;
-    let caseSensitive = document.getElementById('optionPlaySound').checked;
 
     function newWord() {
-        const newWord = currentWordList[Math.floor(Math.random() * currentWordList.length)];
-        currentWord = newWord;
-        wordElement.textContent = newWord;
+        currentWord = currentWordList[Math.floor(Math.random() * currentWordList.length)];
+        wordElement.textContent = currentWord;
     }
 
     enterText.addEventListener('keydown', (e) => {
@@ -34,12 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function validate(e) {
         let inputText = e.target.value.trim();
-        if (!caseSensitive) inputText = inputText.toLowerCase();
+        if (!options.caseSensitive) inputText = inputText.toLowerCase();
 
         if (inputText === currentWord) {
             message.textContent = '\u00A0';
             correctSound.currentTime = 0.01;
-            soundEnabled && correctSound.play();
+            options.playSound && correctSound.play();
             e.target.value = '';
             newWord();
         } else {
@@ -47,13 +44,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    document.getElementById('optionPlaySound').addEventListener('change', (e) => {
-        soundEnabled = e.target.checked;
-    });
+    const options = {};
 
-    document.getElementById('optionCaseSensitive').addEventListener('change', (e) => {
-        caseSensitive = e.target.checked;
-    });
+    function updateOptionsFromDOM() {
+        options.playSound = document.getElementById('option_playSound').checked;
+        options.caseSensitive = document.getElementById('option_caseSensitive').checked;
+
+        populateStorage();
+    }
+
+    function populateStorage() {
+        if (typeof localStorage !== 'undefined') {
+            localStorage.setItem('playSound', options.playSound);
+            localStorage.setItem('caseSensitive', options.caseSensitive);
+        }
+    }
+
+    function loadFromStorage() {
+        if (typeof localStorage !== 'undefined') {
+            document.getElementById('option_playSound').checked = undefinedOrTrue(localStorage.getItem('playSound'));
+            document.getElementById('option_caseSensitive').checked = undefinedOrTrue(localStorage.getItem('caseSensitive'));
+        }
+        updateOptionsFromDOM();
+    }
+
+    document.getElementById('optionsForm').addEventListener('change', updateOptionsFromDOM);
 
     document.getElementById('languageForm').addEventListener('change', initialize);
 
@@ -63,5 +78,11 @@ document.addEventListener('DOMContentLoaded', () => {
         newWord();
     }
 
+    loadFromStorage();
     initialize();
 });
+
+function undefinedOrTrue(x) {
+    // localStorage only stores strings
+    return typeof x !== 'string' || x === 'true';
+}

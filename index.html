@@ -43,14 +43,16 @@
         </div>
         <div class="col col-75">
           <h4>Options</h4>
-          <div>
-            <input id="optionPlaySound" type="checkbox" checked>
-            <label for="optionPlaySound">Play sound</label>
-          </div>
-          <div>
-            <input id="optionCaseSensitive" type="checkbox" checked>
-            <label for="optionCaseSensitive">Case sensitive</label>
-          </div>
+          <form id="optionsForm">
+            <div>
+              <input id="option_playSound" name="playSound" type="checkbox" checked>
+              <label for="option_playSound">Play sound</label>
+            </div>
+            <div>
+              <input id="option_caseSensitive" name="caseSensitive" type="checkbox" checked>
+              <label for="option_caseSensitive">Case sensitive</label>
+            </div>
+          </form>
         </div>
       </div>
     </aside>

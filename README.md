@@ -3,7 +3,7 @@
 A website to help people practice typing in a new language. Makes use of semi-official word frequency lists for different languages.
 
 ### Try it out:
-*Coming soon™*
+https://sameerdash2.github.io/typing/
 
 ## Supported Languages
 | Language | Source |

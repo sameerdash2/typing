@@ -46,17 +46,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const options = {};
 
-    function updateOptionsFromDOM() {
+    function updateOptionsFromDOM(reInitialize) {
         options.playSound = document.getElementById('option_playSound').checked;
         options.caseSensitive = document.getElementById('option_caseSensitive').checked;
+        lang = document.querySelector('input[name="lang"]:checked').value;
 
         populateStorage();
+        reInitialize && initialize();
     }
 
     function populateStorage() {
         if (typeof localStorage !== 'undefined') {
             localStorage.setItem('playSound', options.playSound);
             localStorage.setItem('caseSensitive', options.caseSensitive);
+            localStorage.setItem('language', lang);
         }
     }
 
@@ -64,16 +67,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof localStorage !== 'undefined') {
             document.getElementById('option_playSound').checked = undefinedOrTrue(localStorage.getItem('playSound'));
             document.getElementById('option_caseSensitive').checked = undefinedOrTrue(localStorage.getItem('caseSensitive'));
+            const storedLang = localStorage.getItem('language');
+            if (typeof storedLang === 'string' && document.getElementById(`select-${storedLang}`)) {
+                document.getElementById(`select-${storedLang}`).checked = true;
+            }
         }
         updateOptionsFromDOM();
     }
 
-    document.getElementById('optionsForm').addEventListener('change', updateOptionsFromDOM);
+    document.getElementById('optionsForm').addEventListener('change', () => updateOptionsFromDOM(false));
 
-    document.getElementById('languageForm').addEventListener('change', initialize);
+    document.getElementById('languageForm').addEventListener('change', () => updateOptionsFromDOM(true));
 
     function initialize() {
-        lang = document.querySelector('input[name="lang"]:checked').value;
         currentWordList = words[lang];
         newWord();
     }
